@@ -87,7 +87,7 @@ Caracteristicas:
       1)  Comunicaciones TX0
       14) Comunicaciones TX3 (SIM900)
       15) Comunicaciones RX3
-      16) Comunicaciones TX2 (Panel)
+      16) Comunicaciones TX2 (Sin usar)
       17) COmunicaciones RX2
       18) Comunicaciones TX1 (DFPlayer Mini) 
       19) Comunicaciones RX1
@@ -103,7 +103,7 @@ Caracteristicas:
       3) Central envia al display la ultima zona disparada.
       4) Central envia al display la zona que no deja armar.
       4) Central envia aviso de alarma presente por buzzer y display de zona
-      5) Teclado Autoadhesivo 4x4
+      5) 
       6) Menu setup para poner en fecha y hora el RTC de la central
       7) Menu para anular/habilitar una zona
       8) Menu para configuracion de riego

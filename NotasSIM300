@@ -1,0 +1,32 @@
+Cuando recibi el mensaje aparecio esto en el puerto serial del modem:
+
++CMT: "02613370836","Alejandro W","16/12/29,13:24:38-12"
+Ok recibido bien
+
+Con este comando se pueden consultar las entradas en el phonebook de la SIM
+
+AT+CPBR=3
+
++CPBR: 3,"2613370836",129,"Alejandro W"
+
+sE HIZO EL CAMBIO DE ESTO:
+AT+CSCA?
++CSCA: "+54079000801",145 
+
+pOR ESTO: NOOOOOOOOOOOOOOOOOOOOO CAMBIARLO NUNCA MAS, da error 193 y 515!!!!! 
+AT+CSCA="+5492616530415",145
+
+CONFIGURACION DE SMS, No se almacenaban en la SIM
+AT+CNMI?
++CNMI: 1,2,0,1,0
+
+Cambiarlo por esto:
+AT+CNMI=1,1,0,0,0 o esto: AT+CNMI=3,3,0,0,0
+
+Al recibir un SMS, esto aparece por pantalla... sin OK al final!
++CMTI: "SM",1
+
+Borra todos los SMS, el 4 es un flag para "ALL"
+AT+CMGD=1,4
+
+
