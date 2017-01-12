@@ -1,9 +1,9 @@
-
-//#include <EasyTransfer.h> //Serial entre Arduinos
+#include <Wire.h> //Para el display
 #include <DFPlayer_Mini_Mp3.h>
 #include <DS3231.h> //RTC
 #include <DHT11.h> //Sensor Temp Hum
 #include <EEPROM.h>
+#include <LiquidCrystal_I2C.h>
 
 #define DEBUG 1 //Debug Habilitado/desabilitado
 #undef EN_PRODUCCION //Habilita y desabilita algunas funcionalidades
@@ -106,6 +106,7 @@ unsigned int tlReadings[numReadings];      // the readings from the analog input
 byte readIndex = 0;              // the index of the current reading
 unsigned int tlTotal = 0;
 
+LiquidCrystal_I2C lcd(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE); // YwRobot Arduino LCM1602 IIC V1
 
 DHT11 dht11(2); // Usar el pin 2
 DS3231  rtc(SDA, SCL); // Init the DS3231 using the hardware interface
@@ -177,6 +178,11 @@ void setup() {
   //(Cuando aca habia un Serial.println se colgaba la carga del programa?
 
   estado = EEPROM.read(0); //Leo el valor del ultimo estado guardado
+  if (estado == 0)      estado_txt="Armada OK";
+  else if (estado == 1) estado_txt="Arma Pres";
+  else if (estado == 2) estado_txt="Desarmada";
+  else if (estado == 3) estado_txt="Disparada";
+  
   tb = map(analogRead(A0),0,1023,9,14); // Leo el valor de la bateria al iniciar
   foto = map(analogRead(fotocelula),0,1023,100,0); //Leo el valor inicial de luz
 
@@ -188,10 +194,21 @@ void setup() {
   }
   tl = map(tlTotal/numReadings,0,1023,160,225);   //Linea 220v
 
+
   //Aviso a NUMERO1 con motivo "reset"
   #ifdef EN_PRODUCCION
   envia_SMS(NUMERO1, 0); 
   #endif
+
+  //LCD
+  lcd.begin (16,2);
+  lcd.setBacklight(1);
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("Alarma CUPEWE"); 
+  lcd.setCursor(0,1);
+  lcd.print(estado_txt); 
+  delay(2000); 
   
   //Pido nivel de señal
   Serial3.write("AT+CSQ\r\n");   

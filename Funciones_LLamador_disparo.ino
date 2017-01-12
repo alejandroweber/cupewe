@@ -134,12 +134,12 @@ void SIM300_rxSMS(void) {
       }
     
    if (inputString.indexOf(NUMERO1) >= 0 && auth_flag == 0) {     
-      Serial.println("SMS Autorizado");
+      Serial.println(F("SMS Autorizado"));
       auth_flag = 1;
       }
     
    if (auth_flag == 1 && inputString.indexOf(COMANDO1) >= 0) {     
-      Serial.println("Comando SMS: pedido de estado");
+      Serial.println(F("Comando SMS: pedido de estado"));
       inputString = "";
       auth_flag = 0;
       SIM300_flushSMS();
@@ -147,7 +147,7 @@ void SIM300_rxSMS(void) {
       }
     
    if (auth_flag == 1 && inputString.indexOf(COMANDO2) >= 0) {     
-      Serial.println("Comando SMS: pedido de armado");
+      Serial.println(F("Comando SMS: pedido de armado"));
       inputString = "";
       auth_flag = 0;
       beeps(1, 100);
@@ -180,7 +180,7 @@ void SIM300_flushSMS(void) {
     delay(100);
     
     #ifdef DEBUG 
-    Serial.print("Eliminando Mensaje: ");
+    Serial.print(F("Eliminando Mensaje: "));
     Serial.println(i);
     #endif
   }
