@@ -18,12 +18,48 @@
 void envia_SMS(String num_tel, byte motivo_SMS)
 {
   String MENSAJE;
+  bool envio_aprobado = false;
 /*  
   if (motivo_SMS == 1 && millis() - disparo_proxim > 60000){
     fechahora(1);
     Serial.print(F("Estoy en condiciones de enviar nuevamente el aviso por proximidad"));
   }
 */
+
+//Maquina de estados para control de tiempos
+/*
+ * Si recibe el ACK por sms inibe el envio por 60 min de esa zona pero debe aceptar nuevos eventos de otras zonas
+ * Si la alarma es rearmada se reset del inibidor
+ * Ciclo 1: Al persistir la zona se envia 1 mensaje por minuto durante 3 minutos
+ * Ciclo 2: Si persiste zona, envia el mensaje 4 y 5 espaciados 5 min
+ * Ciclo 3: Si persiste zona, envia mensaje 6, 7, 8, 9, 10 cada 10 min
+ */
+
+switch (control_envio) {
+  case 0:
+  case 1:
+  case 2:
+  case 3:
+    //Enviador cada 1 min
+    control_envio++;
+    break;
+  case 4:
+  case 5:
+    //enviador cada 5 min
+    control_envio++;
+    break;
+  case 6:
+  case 7:
+  case 8:
+  case 9:
+  case 10:
+    //enviador cada 10 min
+    control_envio++;
+    break;
+}
+
+
+
 //Mensaje Base para todos los demas mensajes.
   MENSAJE="Estado: ";
   MENSAJE.concat(estado_txt);
@@ -33,10 +69,10 @@ void envia_SMS(String num_tel, byte motivo_SMS)
   MENSAJE.concat("  VBat: ");
   MENSAJE.concat(tb);
   MENSAJE.concat("\r\n");
-  MENSAJE.concat("Temp: ");
-  MENSAJE.concat(temp);
-  MENSAJE.concat(" Hum: ");
-  MENSAJE.concat(hum);
+  MENSAJE.concat("Temp1: ");
+  MENSAJE.concat(temp1);
+  MENSAJE.concat(" Hum1: ");
+  MENSAJE.concat(hum1);
   MENSAJE.concat("\r\n");
   
   #ifdef DEBUG
@@ -95,6 +131,7 @@ void envia_SMS(String num_tel, byte motivo_SMS)
    Serial.println(MENSAJE);
    #endif
 
+if (envio_aprobado){
   Serial3.println("AT\r\n");  // Mandamos un comando "AT" para comenzar la comunicación.
   delay(800);
   Serial3.println("AT+CMGF=1\r\n");// Módulo GSM en modo texto.
@@ -104,10 +141,11 @@ void envia_SMS(String num_tel, byte motivo_SMS)
   Serial3.println(MENSAJE);
   delay(800);
   Serial3.write(0x1a);  // Comando para enviar el mensaje. Equivale al CRTL+Z.      
-  
+
   #ifdef DEBUG
   Serial.println("SMS Enviado");
   #endif
+  }
 
 }
 

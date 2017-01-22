@@ -87,6 +87,7 @@ bool z24_flag = false;
 bool Reporte_Flag = false;
 bool dht11_flag = false;
 bool auth_flag = false;
+ 
 
 byte estado = 0;
 byte contador_eventos_presencia = 0;
@@ -96,9 +97,10 @@ byte aviso_bat = 0;
 byte aviso_220 = 0;
 byte aviso_sirena = 0;
 byte nivel_senal = 0;
+byte control_envio = 0;
 
 const long intervalo = 300000; //5 minutos
-float temp, hum;
+float temp1, temp2, hum1, hum2;
 
 //Variables para suavizar los valores de los analogicos (por ahora es solo para 220v
 const byte numReadings = 10;
@@ -108,7 +110,8 @@ unsigned int tlTotal = 0;
 
 LiquidCrystal_I2C lcd(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE); // YwRobot Arduino LCM1602 IIC V1
 
-DHT11 dht11(2); // Usar el pin 2
+DHT11 interior(2); // Usar el pin 2
+DHT11 exterior(3); //Usa el pin 3
 DS3231  rtc(SDA, SCL); // Init the DS3231 using the hardware interface
 Time TimeVar; //Variable para guardar el valor que entrega el RTC DS3231
 

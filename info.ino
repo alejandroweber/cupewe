@@ -11,7 +11,7 @@ Caracteristicas:
       A1: Tesion AC (220v)
       A2: Cantidad de luz con fotocelula
       A3: Temperatura agua calefon solar
-      A4: 
+      A4: Sensor lluvia (Antes era digital)
       A5: 
       A6: 
       A7: 
@@ -75,8 +75,8 @@ Caracteristicas:
        
       
   4) Entradas digitales Domotica (digitales)
-      2) Sensor temperatura y humedad ambiente (DHT11)
-      3) Sensor lluvia
+      2) Sensor temperatura y humedad ambiente (DHT11) Interno
+      3) Sensor temperatura y humedad ambiente (DHT11) Externo
   
   5) Entradas Perifericos
       4) Boton Llave 1

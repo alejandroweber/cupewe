@@ -19,10 +19,10 @@ void fechahora(bool logtiempo)
       Serial.println(tl);      
       Serial.print(F("Sirena: "));
       Serial.println(sirena_flag);
-      Serial.print(F("Temperatura: "));
-      Serial.print(temp);
-      Serial.print(F(" Humedad: "));
-      Serial.print(hum);
+      Serial.print(F("Temperatura Int: "));
+      Serial.print(temp1);
+      Serial.print(F(" Humedad Int: "));
+      Serial.print(hum1);
       Serial.print(F(" %Luz: "));
       Serial.println(foto);
       Serial.print(F("Nivel Senial: "));
