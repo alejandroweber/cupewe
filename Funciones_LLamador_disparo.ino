@@ -18,7 +18,7 @@
 void envia_SMS(String num_tel, byte motivo_SMS)
 {
   String MENSAJE;
-  bool envio_aprobado = false;
+  
 /*  
   if (motivo_SMS == 1 && millis() - disparo_proxim > 60000){
     fechahora(1);
@@ -35,18 +35,25 @@ void envia_SMS(String num_tel, byte motivo_SMS)
  * Ciclo 3: Si persiste zona, envia mensaje 6, 7, 8, 9, 10 cada 10 min
  */
 
-switch (control_envio) {
+switch (control_sms_zin) {
   case 0:
   case 1:
   case 2:
   case 3:
     //Enviador cada 1 min
-    control_envio++;
+    if(millis() - ultimo_sms_zin > 60000){
+      envio_aprobado = true;
+      control_sms_zin++;
+    }
+    
     break;
   case 4:
   case 5:
     //enviador cada 5 min
-    control_envio++;
+    if(millis() - ultimo_sms_zin > 300000){
+      envio_aprobado = false;
+      control_sms_zin++;
+    }
     break;
   case 6:
   case 7:
@@ -54,7 +61,11 @@ switch (control_envio) {
   case 9:
   case 10:
     //enviador cada 10 min
-    control_envio++;
+    if(millis() - ultimo_sms_zin > 600000){
+      envio_aprobado = true;
+      control_sms_zin++;
+      if(control_sms_zin == 11) control_sms_zin = 0;
+    }
     break;
 }
 
@@ -146,7 +157,8 @@ if (envio_aprobado){
   Serial.println("SMS Enviado");
   #endif
   }
-
+  envio_aprobado = false;
+  ultimo_sms_zin = millis();
 }
 
 void SIM300_rxSMS(void) {

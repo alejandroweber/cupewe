@@ -71,6 +71,7 @@ unsigned long disparo_z24 = 0;
 unsigned long disparo_presencia = 0; //Almacena el valor de millis al momento de disparar la zona
 unsigned long ultimo_evento_presencia = 0 ;
 unsigned long evento_reporte = millis(); //Comienzo con el valor de millis
+unsigned long ultimo_sms_zin = 0;
 
 String inputString = "";
 String NUMERO1 = "02613370836";
@@ -87,7 +88,7 @@ bool z24_flag = false;
 bool Reporte_Flag = false;
 bool dht11_flag = false;
 bool auth_flag = false;
- 
+bool envio_aprobado = true;
 
 byte estado = 0;
 byte contador_eventos_presencia = 0;
@@ -97,7 +98,7 @@ byte aviso_bat = 0;
 byte aviso_220 = 0;
 byte aviso_sirena = 0;
 byte nivel_senal = 0;
-byte control_envio = 0;
+byte control_sms_zin = 0;
 
 const long intervalo = 300000; //5 minutos
 float temp1, temp2, hum1, hum2;
