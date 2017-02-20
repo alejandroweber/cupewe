@@ -291,7 +291,7 @@ void loop() {
   fechahora(0); //Tomo el horario
   llavero(); //lectura botones llavero
   ledonoff();//Actualiza estado del led
-  pedido_senial();
+  pedido_senial();//Siempre entro pero cada 10 min me lo hace
   SIM300_rxSMS(); //Reviso si no hay nada en el buffer del SIM300
   if(!config_flag) muestradisplay();
   else menu_config();

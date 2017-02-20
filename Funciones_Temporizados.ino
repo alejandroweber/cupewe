@@ -70,9 +70,13 @@ void reporte(void) {
      */
 }
 
-void pedido_senial(void){
+void pedido_senial(void){ //Cada 10 minutos pido el nivel de señal
   if((TimeVar.min == 0 || TimeVar.min == 10 || TimeVar.min == 20 || TimeVar.min == 30 || TimeVar.min == 40 || TimeVar.min == 50) && TimeVar.sec == 0) {
-    Serial3.write("AT+CSQ\r\n"); //Pido nivel de señal  
+    #ifdef DEBUG
+    Serial.println("------>>> Pidiendo el nivel de señal <<<------");
+    #endif 
+    Serial3.write("AT+CSQ\r\n"); //Pido nivel de señal
+    delay(500); //Espero un poco
   }
 }
 
