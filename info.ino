@@ -11,7 +11,7 @@ Caracteristicas:
       A0: Tension de bateria
       A1: Tesion AC (220v)
       A2: Cantidad de luz con fotocelula
-      A3: Temperatura agua calefon solar
+      A3: Botones del panel de interfaz
       A4: Sensor lluvia (Antes era digital)
       A5: 
       A6: 

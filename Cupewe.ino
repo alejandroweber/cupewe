@@ -1,4 +1,3 @@
-
 #include <Wire.h> //Para el display
 #include <DFPlayer_Mini_Mp3.h>
 #include <DS3231.h> //RTC
@@ -60,7 +59,8 @@
 #define batt A0
 #define linea A1
 #define fotocelula A2
-#define temp_calefon A3
+#define bt_display A3
+
 
 //Variables Globales
 byte tb = 0, tl = 0, foto = 0;
@@ -90,6 +90,17 @@ bool Reporte_Flag = false;
 bool dht11_flag = false;
 bool auth_flag = false;
 bool envio_aprobado = true;
+
+//Del menu y display
+bool pres_ok = false;
+bool pres_up = false;
+bool pres_down = false;
+bool pres_cancel = false;
+bool config_flag = false;
+unsigned long refresco=0;
+byte estado_display=0;//Maquina de estados menu
+byte estado_menu = 0; //Maquina de estados config
+//-------------------
 
 byte estado = 0;
 byte contador_eventos_presencia = 0;
@@ -235,7 +246,6 @@ void loop() {
   
   switch (estado) {
     case 0: //Armado normal
-      estado_txt="Armada OK";
       zona_inmediata();
       zona_presencia();
       zona_perimetral();
@@ -253,12 +263,13 @@ void loop() {
 
     case 1: //Armado Presente
       zona_perimetral();
+      botones_display();
       estado_txt="Arma Pres";
       break;
 
     case 2: //Desarmada
-      estado_txt="Desarmada";
       sirena_flag = 0;
+      botones_display();
       break;
 
     case 3: //Disparada
@@ -282,7 +293,8 @@ void loop() {
   ledonoff();//Actualiza estado del led
   pedido_senial();
   SIM300_rxSMS(); //Reviso si no hay nada en el buffer del SIM300
-  
+  if(!config_flag) muestradisplay();
+  else menu_config();
 }//Loop principal.
 
 //La funcion de envio de SMS debe usar una variable con las zonas abiertas desde que fue armada
