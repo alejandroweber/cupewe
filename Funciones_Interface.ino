@@ -81,11 +81,11 @@ void botones_display(void) {
 
 /*
  * Si no se aprieta algun boton, cada 10 segundos cambia lo que muestra por el display
- * Estado 0: Muestra temperatura y humedad de la casa "CLIMA INTERIOR"
- * Estado 1: Muestra temperatura y humedad de afuera "CLIMA EXTERIOR"
+ * Estado 0: Muestra Estado de la alarma
+ * Estado 1: Muestra nivel de señal
  * Estado 2: Muestra valores de tension de bateria y linea "Alimentacion"
- * Estado 3: Muestra nivel de señal de celular 
- * Estado 4: Muestra comando recibido por SMS
+ * Estado 3: Muestra temperatura y humedad de afuera "CLIMA EXTERIOR"
+ * Estado 4: Muestra Fecha y Hora
  * Estado 5: Muestra si hay un error de zona al tratar de armar la alarma
  * Estado 6: Entra al menu de configuracion
  */
@@ -135,41 +135,53 @@ void muestradisplay(void) { //Va cambiando cada 15 segundos o cuando se aprieta 
     case 1:
       lcd.clear();
       lcd.setCursor(0,0);
-      lcd.print("Alarma CUPEWE"); 
+      lcd.print("Nivel Senial"); 
       lcd.setCursor(0,1);
-      lcd.print(estado_display); 
+      lcd.print(nivel_senal); 
       delay(100);   
       break;
     case 2:
       lcd.clear();
       lcd.setCursor(0,0);
-      lcd.print("Alarma CUPEWE"); 
+      lcd.print("V. Linea: ");
+      lcd.print(tl); 
       lcd.setCursor(0,1);
-      lcd.print(estado_display); 
+      lcd.print("V. Bateria: ");
+      lcd.print(tb); 
       delay(100);   
       break;
     case 3: 
       lcd.clear();
       lcd.setCursor(0,0);
-      lcd.print("Alarma CUPEWE"); 
+      lcd.print("Temp In: ");
+      lcd.print(temp1);
       lcd.setCursor(0,1);
-      lcd.print(estado_display); 
+      lcd.print("Humedad: ");
+      lcd.print(hum1);
       delay(100);   
       break;
     case 4:
       lcd.clear();
       lcd.setCursor(0,0);
-      lcd.print("Alarma CUPEWE"); 
+      lcd.print("Dia : "); 
+      lcd.print(rtc.getDateStr());
       lcd.setCursor(0,1);
-      lcd.print(estado_display); 
+      lcd.print("Hora: "); 
+      lcd.print(rtc.getTimeStr());
       delay(100);   
       break;
     case 5:
       lcd.clear();
       lcd.setCursor(0,0);
-      lcd.print("Alarma CUPEWE"); 
+      lcd.print("Zonas abiertas"); 
       lcd.setCursor(0,1);
-      lcd.print(estado_display); 
+      if(digitalRead(zin1) == LOW) lcd.print("Zi1-");
+      if(digitalRead(zin2) == LOW) lcd.print("Zi2-");
+      if(digitalRead(zin3) == LOW) lcd.print("Zi3-");
+      if(digitalRead(zin4) == LOW) lcd.print("Zi4-");
+      if(digitalRead(zin5) == LOW) lcd.print("Zi5-");
+      //Ver como se puede hacer algo mejor que esto es una cochinada 
+      
       delay(100);   
       break;
   }

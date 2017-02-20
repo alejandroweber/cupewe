@@ -179,7 +179,9 @@ void SIM300_rxSMS(void) {
    if (inputString.indexOf("+CSQ:") >= 0) {
       if (inputString.indexOf(" ") >= 0) {
         if (inputString.indexOf(",") >= 0) {
+          //Serial.println("Calculando el nivel de senial");
           nivel_senal = inputString.substring(inputString.indexOf(" ") + 1,inputString.indexOf(",")).toInt(); //Es un string convertido a Int
+          inputString = "";
           }
         }
       }
