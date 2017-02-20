@@ -1,3 +1,4 @@
+
 void fechahora(bool logtiempo)
 {
   if(logtiempo == 1 && TimeVar.sec != debug_slower){

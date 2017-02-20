@@ -1,3 +1,4 @@
+
 void beeps (int bucles, int duracion) { //Funcion para avisos mediante beeps en la sirena
   
 int i=0;

@@ -1,3 +1,4 @@
+
 #include <Wire.h> //Para el display
 #include <DFPlayer_Mini_Mp3.h>
 #include <DS3231.h> //RTC
@@ -111,8 +112,10 @@ unsigned int tlTotal = 0;
 
 LiquidCrystal_I2C lcd(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE); // YwRobot Arduino LCM1602 IIC V1
 
-DHT11 interior(2); // Usar el pin 2
-DHT11 exterior(3); //Usa el pin 3
+DHT11 dht11(2); // Usar el pin 2
+//DHT11 interior(2); // Usar el pin 2
+//DHT11 exterior(3); //Usa el pin 3
+
 DS3231  rtc(SDA, SCL); // Init the DS3231 using the hardware interface
 Time TimeVar; //Variable para guardar el valor que entrega el RTC DS3231
 

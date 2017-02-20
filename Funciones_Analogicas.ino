@@ -1,3 +1,4 @@
+
 void alimentacion(void)
 {
  
@@ -39,7 +40,8 @@ void alimentacion(void)
 
 void temphum(void) {
        int err;
-       if((err = interior.read(hum1, temp1)) == 0 && (err = exterior.read(hum2, temp2)) == 0 && dht11_flag == 0 && TimeVar.sec == 15)    // Si devuelve 0 es que ha leido bien, y actualiza cada 1 min
+       //if((err = interior.read(hum1, temp1)) == 0 && (err = exterior.read(hum2, temp2)) == 0 && dht11_flag == 0 && TimeVar.sec == 15)    // Si devuelve 0 es que ha leido bien, y actualiza cada 1 min
+       if((err = dht11.read(hum1, temp1)) == 0 && dht11_flag == 0 && TimeVar.sec == 15)    // Si devuelve 0 es que ha leido bien, y actualiza cada 1 min
        {
              dht11_flag = 1;
           }

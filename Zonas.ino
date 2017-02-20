@@ -1,3 +1,4 @@
+
 bool zona24hs(void) { /*
   if (digitalRead(z24) == LOW) {
   sirena_flag = 1; //Al pasar por el bucle y ejecutar sirenaonoff(), se va a disparar

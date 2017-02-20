@@ -1,3 +1,4 @@
+
 /*
  * motivo_SMS puede tener estos valores:
  * 0 => Reset
@@ -211,7 +212,7 @@ void SIM300_rxSMS(void) {
       }
     
    if (auth_flag == 1 && inputString.indexOf(COMANDO3) >= 0) {     
-      Serial.println("Comando SMS: pedido de desarmado");
+      Serial.println(F("Comando SMS: pedido de desarmado"));
       inputString = "";
       auth_flag = 0;
       SIM300_flushSMS();
