@@ -81,6 +81,7 @@ String COMANDO1 = pass + ' ' + "estado";
 String COMANDO2 = pass + ' ' + "armar";
 String COMANDO3 = pass + ' ' + "desarmar";
 String estado_txt="";
+String ZonaDisparada="";
 
 bool sirena_flag = false;
 bool proxim_flag = false;

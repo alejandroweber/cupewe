@@ -15,7 +15,6 @@
  * 11 => 
  */
 
-
 void envia_SMS(String num_tel, byte motivo_SMS)
 {
   String MENSAJE;

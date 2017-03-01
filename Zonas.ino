@@ -23,6 +23,7 @@ bool zona_inmediata(void) {
         estado_txt="Disparada";
         envia_SMS(NUMERO1, 1);
         instant_flag = true;
+        ZonaDisparada = "Inmediata 1";
         }
       }
   return 1; //Si la zona esta abierta devuelve 1

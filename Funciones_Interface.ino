@@ -87,7 +87,8 @@ void botones_display(void) {
  * Estado 3: Muestra temperatura y humedad de afuera "CLIMA EXTERIOR"
  * Estado 4: Muestra Fecha y Hora
  * Estado 5: Muestra si hay un error de zona al tratar de armar la alarma
- * Estado 6: Entra al menu de configuracion
+ * Estado 6: Muestra ultima zona disparada
+ * Estado 7: Entra al menu de configuracion
  */
 
 void muestradisplay(void) { //Va cambiando cada 15 segundos o cuando se aprieta botones
@@ -109,7 +110,7 @@ void muestradisplay(void) { //Va cambiando cada 15 segundos o cuando se aprieta 
     refresco = millis();
   }
   else if (pres_ok) menu_config();
-  if (estado_display > 5) estado_display = 0;
+  if (estado_display > 6) estado_display = 0;
 
 /*  
   lcd.clear();
@@ -181,9 +182,19 @@ void muestradisplay(void) { //Va cambiando cada 15 segundos o cuando se aprieta 
       if(digitalRead(zin4) == LOW) lcd.print("Zi4-");
       if(digitalRead(zin5) == LOW) lcd.print("Zi5-");
       //Ver como se puede hacer algo mejor que esto es una cochinada 
-      
       delay(100);   
       break;
+      
+      case 6:
+        lcd.clear();
+        lcd.setCursor(0,0);
+        lcd.print("Zona Disparada"); 
+        lcd.setCursor(0,1);
+        if(ZonaDisparada != "") lcd.print(ZonaDisparada);
+        else lcd.print("Ninguna 24Hs");
+        delay(100);     
+      break;
+
   }
 }
 

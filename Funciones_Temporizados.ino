@@ -49,6 +49,7 @@ if (contador_eventos_presencia == 4) //Numero maximo de simulacion de presencia
         contador_eventos_presencia = 0; //Reset del contador
         disparo_sirena = millis(); //Actualizo el contador
         envia_SMS(NUMERO1,2); //Envio el mensaje con el motivo correcto
+        ZonaDisparada = "Presencia 1";
       }
 
 }
