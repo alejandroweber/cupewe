@@ -95,6 +95,8 @@ bool envio_aprobado = true;
 bool pres_ok = false;
 bool pres_up = false;
 bool pres_down = false;
+
+
 bool pres_cancel = false;
 bool config_flag = false;
 unsigned long refresco=0;

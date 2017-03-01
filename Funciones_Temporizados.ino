@@ -63,7 +63,15 @@ void reporte(void) {
   else if(TimeVar.sec >= 11  && TimeVar.sec <= 20 && Reporte_Flag == 1){
       Reporte_Flag = 0; //Reset de flag --- Tambien puede ir en envia_SMS() despues de enviar el mensaje
       }
-
+  //Reporte automatico, si son las 21Hs y no esta activada.
+  if(estado == 2 && TimeVar.hour == 21 && TimeVar.min == 0 && (TimeVar.sec >= 0 && TimeVar.sec <= 10) && Reporte_Flag == 0) {
+      Reporte_Flag = 1; //Con la primer entrada levanto el flag
+      SIM300_rxSMS();
+      envia_SMS(NUMERO1,9); //Envio el mensaje con el motivo correcto
+      }
+  else if(estado == 2 && TimeVar.sec >= 11  && TimeVar.sec <= 20 && Reporte_Flag == 1){
+      Reporte_Flag = 0; //Reset de flag --- Tambien puede ir en envia_SMS() despues de enviar el mensaje
+      }
   //Reporte por demanda
     /*
      *  Poner una condicion!

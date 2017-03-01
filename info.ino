@@ -99,8 +99,8 @@ Caracteristicas:
       --- NO QUEDAN! :( ----
       
  7) Interfaz con display
-      1) Usa la libreria serial EasyTransfer para comunicarse bidireccional (ver ejemplos)
-      2) Central envia al display actualizadamente la fecha y hora; temp y humedad, valores de bateria y linea.
+      1) 
+      2) Central envia al display la fecha y hora; temp y humedad, valores de bateria y linea.
       3) Central envia al display la ultima zona disparada.
       4) Central envia al display la zona que no deja armar.
       4) Central envia aviso de alarma presente por buzzer y display de zona
