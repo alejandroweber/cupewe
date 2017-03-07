@@ -15,25 +15,25 @@ void llavero(void){ //Cualquiera de los dos botones, arma o desarma.. toggle
   if(digitalRead(llave_arme) == HIGH || digitalRead(llave_desarme) == HIGH){
     switch(estado) {
       case 0:
-          beeps(2, 100);
+          beeps(2, 200);
           estado_txt="Desarmada";
           estado = 2;
           break;
       case 1:
-          beeps(2, 100);
+          beeps(2, 200);
           estado_txt="Desarmada";
           estado = 2;
           break;
       case 2:
-          if(zona_inmediata() == false && zona24hs() == false && panico() == false){
-             beeps(1, 100);
+          if(zona_inmediata() == false && zona24hs() == false && panico() == false && digitalRead(zpr1) != LOW){
+             beeps(1, 200);
              estado_txt="Armada OK";
              estado = 0;
           }
-          else beeps(5,70);  //Tono de error. Falta sumarle el aviso por display       
+          else beeps(10,100);  //Tono de error. Falta sumarle el aviso por display       
           break;
       case 3:
-          beeps(4, 100);
+          beeps(4, 200);
           estado_txt="Desarmada";
           estado = 2;
           break;
@@ -92,24 +92,29 @@ void botones_display(void) {
  */
 
 void muestradisplay(void) { //Va cambiando cada 15 segundos o cuando se aprieta botones
-  
+
   if ((millis() - refresco > 15000) && !pres_ok && !pres_up && !pres_down){
     estado_display++;
+    display_actualizado = false;
     refresco = millis();
   }
   else if (pres_up) {
     estado_display++;
+    display_actualizado = false;
     refresco = millis();
   }
   else if (pres_down && estado_display != 0) {
     estado_display--;
+    display_actualizado = false;
     refresco = millis();
   }
   else if (pres_down && estado_display == 0) {
     estado_display = 5;
+    display_actualizado = false;
     refresco = millis();
   }
-  else if (pres_ok) menu_config();
+  //else if (pres_ok) menu_config();
+  
   if (estado_display > 6) estado_display = 0;
 
 /*  
@@ -126,22 +131,32 @@ void muestradisplay(void) { //Va cambiando cada 15 segundos o cuando se aprieta 
   */
   switch (estado_display) {
     case 0: 
-      lcd.clear();
-      lcd.setCursor(0,0);
-      lcd.print("Alarma CUPEWE"); 
-      lcd.setCursor(0,1);
-      lcd.print(estado_txt); 
-      delay(100); 
+      if(display_actualizado == false){
+        lcd.clear();
+        lcd.setCursor(0,0);
+        lcd.print("Alarma CUPEWE"); 
+        lcd.setCursor(0,1);
+        lcd.print(estado_txt); 
+        delay(100); 
+        Serial.println("Estoy en una parte del display");
+        Serial.print("Estado Display: ");
+        Serial.println(display_actualizado);
+        display_actualizado=true;
+      }
       break;
     case 1:
+      if(display_actualizado==false){
       lcd.clear();
       lcd.setCursor(0,0);
       lcd.print("Nivel Senial"); 
       lcd.setCursor(0,1);
       lcd.print(nivel_senal); 
       delay(100);   
+      display_actualizado=true;
+      }
       break;
     case 2:
+      if(display_actualizado==false){
       lcd.clear();
       lcd.setCursor(0,0);
       lcd.print("V. Linea: ");
@@ -150,8 +165,11 @@ void muestradisplay(void) { //Va cambiando cada 15 segundos o cuando se aprieta 
       lcd.print("V. Bateria: ");
       lcd.print(tb); 
       delay(100);   
+      display_actualizado=true;
+      }
       break;
-    case 3: 
+    case 3:
+      if(display_actualizado==false){ 
       lcd.clear();
       lcd.setCursor(0,0);
       lcd.print("Temp In: ");
@@ -160,8 +178,11 @@ void muestradisplay(void) { //Va cambiando cada 15 segundos o cuando se aprieta 
       lcd.print("Humedad: ");
       lcd.print(hum1);
       delay(100);   
+      display_actualizado=true;
+      }
       break;
     case 4:
+      if(display_actualizado==false){
       lcd.clear();
       lcd.setCursor(0,0);
       lcd.print("Dia : "); 
@@ -170,22 +191,25 @@ void muestradisplay(void) { //Va cambiando cada 15 segundos o cuando se aprieta 
       lcd.print("Hora: "); 
       lcd.print(rtc.getTimeStr());
       delay(100);   
+      display_actualizado=true;
+      }
       break;
     case 5:
+      if(display_actualizado==false){
       lcd.clear();
       lcd.setCursor(0,0);
       lcd.print("Zonas abiertas"); 
       lcd.setCursor(0,1);
-      if(digitalRead(zin1) == LOW) lcd.print("Zi1-");
-      if(digitalRead(zin2) == LOW) lcd.print("Zi2-");
-      if(digitalRead(zin3) == LOW) lcd.print("Zi3-");
-      if(digitalRead(zin4) == LOW) lcd.print("Zi4-");
-      if(digitalRead(zin5) == LOW) lcd.print("Zi5-");
+      if(digitalRead(zin1) == LOW) lcd.print("Zin1-");
+      if(digitalRead(zpr1) == LOW) lcd.print("ZPr1-");
       //Ver como se puede hacer algo mejor que esto es una cochinada 
-      delay(100);   
+      delay(100);
+      display_actualizado=true;
+      }   
       break;
       
       case 6:
+        if(display_actualizado==false){
         lcd.clear();
         lcd.setCursor(0,0);
         lcd.print("Zona Disparada"); 
@@ -193,6 +217,8 @@ void muestradisplay(void) { //Va cambiando cada 15 segundos o cuando se aprieta 
         if(ZonaDisparada != "") lcd.print(ZonaDisparada);
         else lcd.print("Ninguna 24Hs");
         delay(100);     
+        display_actualizado=true;
+        }
       break;
 
   }

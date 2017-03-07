@@ -8,7 +8,7 @@ void alimentacion(void)
   readIndex = readIndex + 1;
   if (readIndex >= numReadings) readIndex = 0;  
 
-  tl = map(tlTotal/numReadings,0,1023,160,225);   //Linea 220v
+  tl = map(tlTotal/numReadings,0,1023,0,225);   //Linea 220v
   //tb = map(analogRead(batt),0,1023,9,14);      //Bateria
   
   
@@ -24,7 +24,7 @@ void alimentacion(void)
   if(TimeVar.min == 5 && TimeVar.sec <= 1 && aviso_220 == 0){ //Tomo lectura de la bateria bajo carga cada 1h siempre que no este cortada la linea 220V
     digitalWrite(testbat,HIGH); //Activo el rele
     delay(1000); ;
-    tb = map(analogRead(batt),0,1023,9,14);      // Mido la bateria pero bajo carga controlada
+    tb = map(analogRead(batt),0,1023,0,14);      // Mido la bateria pero bajo carga controlada
     digitalWrite(testbat,LOW); //desactivo rele
     
     if (tb < 12 && aviso_bat == 0){

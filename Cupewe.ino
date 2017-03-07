@@ -91,6 +91,7 @@ bool Reporte_Flag = false;
 bool dht11_flag = false;
 bool auth_flag = false;
 bool envio_aprobado = true;
+bool display_actualizado = false;
 
 //Del menu y display
 bool pres_ok = false;
@@ -204,7 +205,7 @@ void setup() {
   else if (estado == 2) estado_txt="Desarmada";
   else if (estado == 3) estado_txt="Disparada";
   
-  tb = map(analogRead(A0),0,1023,9,14); // Leo el valor de la bateria al iniciar
+  tb = map(analogRead(A0),0,1023,0,14); // Leo el valor de la bateria al iniciar
   foto = map(analogRead(fotocelula),0,1023,100,0); //Leo el valor inicial de luz
 
   //Inicia el array de lecturas de 220v en algun valor real
@@ -221,6 +222,11 @@ void setup() {
   envia_SMS(NUMERO1, 0); 
   #endif
 
+  //Pido nivel de señal
+  Serial3.write("AT+CSQ\r\n"); 
+  delay(500); //Espero un poco para recibirlo 
+  SIM300_rxSMS(); //Lo recibo
+
   //LCD
   lcd.begin (16,2);
   lcd.setBacklight(1);
@@ -231,8 +237,7 @@ void setup() {
   lcd.print(estado_txt); 
   delay(2000); 
   
-  //Pido nivel de señal
-  Serial3.write("AT+CSQ\r\n");   
+  
 }
 
 

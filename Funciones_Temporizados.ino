@@ -2,7 +2,7 @@
 void sirenaonoff(void)
 {
  
-if (sirena_flag == 1 &&  (millis() - disparo_sirena <= 5000)) {   //Despues cambiar los 20000 por intervalo de 5m = 300000
+if (sirena_flag == 1 &&  (millis() - disparo_sirena <= 300000)) {   //5m = 300000
                 digitalWrite(sirena, HIGH);
                 digitalWrite(luces1, HIGH);
                 estado = 3; //Estado de disparada
@@ -37,6 +37,7 @@ if (millis() - ultimo_evento_presencia <= intervalo) {
               mp3_single_play(3);
               //mp3_random_play ();
               mp3_stop();
+              beeps(1,3000); //Mientras no tengamos el audio OK
               }
 else {
               contador_eventos_presencia = 0;
@@ -48,7 +49,7 @@ if (contador_eventos_presencia == 4) //Numero maximo de simulacion de presencia
         sirena_flag = 1; //Aviso que se debe activar sirena
         contador_eventos_presencia = 0; //Reset del contador
         disparo_sirena = millis(); //Actualizo el contador
-        envia_SMS(NUMERO1,2); //Envio el mensaje con el motivo correcto
+        envia_SMS(NUMERO1,10); //Envio el mensaje con el motivo correcto
         ZonaDisparada = "Presencia 1";
       }
 

@@ -33,7 +33,7 @@ bool zona_inmediata(void) {
 
 void zona_presencia(void) {
   //if (digitalRead(zpr1) == LOW || digitalRead(zpr2) == LOW || digitalRead(zpr3) == LOW){
-  if (digitalRead(zpr1) == LOW && (millis() - disparo_presencia >= 5000)){
+   if (digitalRead(zpr1) == LOW && (millis() - disparo_presencia >= 5000)){
     disparo_presencia = millis();
     simular_presencia();
   }
