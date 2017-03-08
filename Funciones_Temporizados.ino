@@ -6,12 +6,6 @@ if (sirena_flag == 1 &&  (millis() - disparo_sirena <= 300000)) {   //5m = 30000
                 digitalWrite(sirena, HIGH);
                 digitalWrite(luces1, HIGH);
                 estado = 3; //Estado de disparada
-                
-                #ifdef DEBUG
-                fechahora(1);
-                Serial.print(F("Sonando: "));
-                Serial.println(millis() - disparo_sirena);
-                #endif
               }
 else {
               digitalWrite(sirena, LOW);
@@ -37,7 +31,8 @@ if (millis() - ultimo_evento_presencia <= intervalo) {
               mp3_single_play(3);
               //mp3_random_play ();
               mp3_stop();
-              beeps(1,3000); //Mientras no tengamos el audio OK
+              beeps(1,2000); //Mientras no tengamos el audio OK
+              beeps(3,100);
               }
 else {
               contador_eventos_presencia = 0;
@@ -86,7 +81,7 @@ void pedido_senial(void){ //Cada 10 minutos pido el nivel de señal
     Serial.println("------>>> Pidiendo el nivel de señal <<<------");
     #endif 
     Serial3.write("AT+CSQ\r\n"); //Pido nivel de señal
-    delay(500); //Espero un poco
+    delay(1500); //Espero un poco
   }
 }
 

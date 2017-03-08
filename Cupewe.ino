@@ -6,7 +6,8 @@
 #include <LiquidCrystal_I2C.h>
 
 #define DEBUG 1 //Debug Habilitado/desabilitado
-#undef EN_PRODUCCION //Habilita y desabilita algunas funcionalidades
+//#undef EN_PRODUCCION //Habilita y desabilita algunas funcionalidades
+#define EN_PRODUCCION //Habilita y desabilita algunas funcionalidades
 
 //Entradas Digitales
 #define lluvia  3 //Inhibir el encendido de la bomba de riego
@@ -219,14 +220,12 @@ void setup() {
 
   //Aviso a NUMERO1 con motivo "reset"
   #ifdef EN_PRODUCCION
-  envia_SMS(NUMERO1, 0); 
+  //envia_SMS(NUMERO1, 0); 
   #endif
 
   //Pido nivel de señal
   Serial3.write("AT+CSQ\r\n"); 
-  delay(500); //Espero un poco para recibirlo 
-  SIM300_rxSMS(); //Lo recibo
-
+  
   //LCD
   lcd.begin (16,2);
   lcd.setBacklight(1);
@@ -237,6 +236,7 @@ void setup() {
   lcd.print(estado_txt); 
   delay(2000); 
   
+  SIM300_flushSMS(); //Borro todos los SMS que tenia
   
 }
 
@@ -289,6 +289,7 @@ void loop() {
 
   }//Switch estado
 
+  //if (auth_flag == 0){
   reporte(); //Si el horario es el correcto generar reporte
   alimentacion(); //Revisar estado de las tensiones
   fotocel();
@@ -300,12 +301,12 @@ void loop() {
   llavero(); //lectura botones llavero
   ledonoff();//Actualiza estado del led
   pedido_senial();//Siempre entro pero cada 10 min me lo hace
-  SIM300_rxSMS(); //Reviso si no hay nada en el buffer del SIM300
   if(!config_flag) muestradisplay();
   else menu_config();
+  //}
+  SIM300_rxSMS(); //Reviso si no hay nada en el buffer del SIM300
 }//Loop principal.
 
 //La funcion de envio de SMS debe usar una variable con las zonas abiertas desde que fue armada
 //La funcion de simulacion de presencia debe desactivar el sensor de golpe(microfono) mientras ejecuta MP3
-
 

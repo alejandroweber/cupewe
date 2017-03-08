@@ -14,28 +14,32 @@ void llavero(void){ //Cualquiera de los dos botones, arma o desarma.. toggle
 
   if(digitalRead(llave_arme) == HIGH || digitalRead(llave_desarme) == HIGH){
     switch(estado) {
-      case 0:
+      case 0:  //Estado Armada
           beeps(2, 200);
           estado_txt="Desarmada";
           estado = 2;
+          delay(1500);
           break;
-      case 1:
+      case 1: //Estado Armada Presente
           beeps(2, 200);
           estado_txt="Desarmada";
           estado = 2;
+          delay(1500);
           break;
-      case 2:
+      case 2: //Desarmada
           if(zona_inmediata() == false && zona24hs() == false && panico() == false && digitalRead(zpr1) != LOW){
              beeps(1, 200);
              estado_txt="Armada OK";
              estado = 0;
+             delay(1500); //Espero para que no de dos vueltas por aca
           }
           else beeps(10,100);  //Tono de error. Falta sumarle el aviso por display       
           break;
-      case 3:
+      case 3: //Disparada
           beeps(4, 200);
           estado_txt="Desarmada";
           estado = 2;
+          delay(1500);
           break;
     }
   }
@@ -75,7 +79,7 @@ void botones_display(void) {
     }
 
 #ifdef DEBUG
-  Serial.println(BtValue);
+  //Serial.println(BtValue);
 #endif 
 }
 
@@ -138,9 +142,6 @@ void muestradisplay(void) { //Va cambiando cada 15 segundos o cuando se aprieta 
         lcd.setCursor(0,1);
         lcd.print(estado_txt); 
         delay(100); 
-        Serial.println("Estoy en una parte del display");
-        Serial.print("Estado Display: ");
-        Serial.println(display_actualizado);
         display_actualizado=true;
       }
       break;

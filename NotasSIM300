@@ -26,7 +26,13 @@ AT+CNMI=1,1,0,0,0 o esto: AT+CNMI=3,3,0,0,0
 Al recibir un SMS, esto aparece por pantalla... sin OK al final!
 +CMTI: "SM",1
 
-Borra todos los SMS, el 4 es un flag para "ALL"
+Borra todos los SMS, el 4 es un flag para "ALL" pero no anda este comando: 
 AT+CMGD=1,4
+Para borrar todos hay que hacer un for y recorrer cada numero asi:
+AT+CMGD=1
+AT+CMGD=2
+AT+CMGD=3	
+...
+...
 
 

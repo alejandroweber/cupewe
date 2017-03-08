@@ -159,20 +159,26 @@ if (envio_aprobado){
   }
   envio_aprobado = false;
   ultimo_sms_zin = millis();
+  
+  inputString = ""; //Borro despues de enviar
 }
 
 void SIM300_rxSMS(void) {
    while (Serial3.available()) {
     char inByte = (char)Serial3.read();
     inputString += inByte;
+    delay(3);
     //Serial.write(inByte); //Muestro por el monitor serial lo que dice el modem
    }
+
+   #ifdef DEBUG
+   //if (inputString!="") Serial.println(inputString);
+   #endif
    
    if (inputString.indexOf("+CMTI: \"SM\",") >= 0) {
       Serial.println("Nuevo SMS!!");
       inputString = "";
-      Serial3.write("AT+CMGR=1\r\n"); //Leo por si hay un nuevo mensaje
-      delay(100);    
+      Serial3.write("AT+CMGR=1\r\n"); //Leo por si hay un nuevo mensaje valido
       }
       
    if (inputString.indexOf("+CSQ:") >= 0) {
@@ -191,6 +197,11 @@ void SIM300_rxSMS(void) {
       Serial.println(F("SMS Autorizado"));
       auth_flag = 1;
       }
+   else if(inputString.indexOf("REC UNREAD") >= 0 && inputString.indexOf(NUMERO1) < 0 && auth_flag == 0) {
+      inputString = "";
+      Serial.println("Borrando mensaje no valido");
+      SIM300_flushSMS(); //Cualquier otro mensaje lo borra
+   }
     
    if (auth_flag == 1 && inputString.indexOf(COMANDO1) >= 0) {     
       Serial.println(F("Comando SMS: pedido de estado"));
@@ -210,7 +221,7 @@ void SIM300_rxSMS(void) {
         estado = 0;
         estado_txt="Armada OK";
         }
-      else estado_txt="Problema";
+      else estado_txt="Problema Zona";
       envia_SMS(NUMERO1, 9); //Respondo con el estado
       }
     
@@ -231,12 +242,14 @@ void SIM300_flushSMS(void) {
     Serial3.print("AT+CMGD=");
     Serial3.print(i);
     Serial3.println("\r\n"); //Borro todos los SMS
-    delay(100);
-    
+    delay(200);
+          
     #ifdef DEBUG 
     Serial.print(F("Eliminando Mensaje: "));
     Serial.println(i);
     #endif
   }
+  delay(1000); //Espero para estar seguro de borrar todo el buffer
+  inputString = "";
 }
 
