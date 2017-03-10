@@ -14,10 +14,12 @@ void alimentacion(void)
   
   
   if (tl < 160 && aviso_220 == 0){
+    envio_aprobado = true;
     envia_SMS(NUMERO1,7); 
     aviso_220 = 1;
   }
   if (tl > 216 && aviso_220 == 1){
+    envio_aprobado = true;
     envia_SMS(NUMERO1,8); 
     aviso_220 = 0;
   }
@@ -29,10 +31,12 @@ void alimentacion(void)
     digitalWrite(testbat,LOW); //desactivo rele
     
     if (tb < 12 && aviso_bat == 0){
+        envio_aprobado = true;
         envia_SMS(NUMERO1,5); 
         aviso_bat = 1;
     }
     if (tb > 12 && aviso_bat == 1){
+        envio_aprobado = true;
         envia_SMS(NUMERO1,6); 
         aviso_bat = 0;
     }

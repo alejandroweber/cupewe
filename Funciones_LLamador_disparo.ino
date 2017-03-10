@@ -51,7 +51,7 @@ switch (control_sms_zin) {
   case 5:
     //enviador cada 5 min
     if(millis() - ultimo_sms_zin > 300000){
-      envio_aprobado = false;
+      envio_aprobado = true;
       control_sms_zin++;
     }
     break;
@@ -152,15 +152,16 @@ if (envio_aprobado){
   Serial3.println(MENSAJE);
   delay(800);
   Serial3.write(0x1a);  // Comando para enviar el mensaje. Equivale al CRTL+Z.      
-
+  delay(800);
+  
   #ifdef DEBUG
   Serial.println("SMS Enviado");
   #endif
   }
   envio_aprobado = false;
   ultimo_sms_zin = millis();
-  
   inputString = ""; //Borro despues de enviar
+  if (Reporte_Flag == 1) Reporte_Flag = 0; //Reset del flag despues de enviar reporte
 }
 
 void SIM300_rxSMS(void) {
@@ -172,7 +173,7 @@ void SIM300_rxSMS(void) {
    }
 
    #ifdef DEBUG
-   //if (inputString!="") Serial.println(inputString);
+   if (inputString!="") Serial.println(inputString);
    #endif
    
    if (inputString.indexOf("+CMTI: \"SM\",") >= 0) {
@@ -208,6 +209,7 @@ void SIM300_rxSMS(void) {
       inputString = "";
       auth_flag = 0;
       SIM300_flushSMS();
+      envio_aprobado = true;
       envia_SMS(NUMERO1, 9); 
       }
     
@@ -220,8 +222,10 @@ void SIM300_rxSMS(void) {
       if(zona_inmediata() == false && zona24hs() == false && panico() == false) {
         estado = 0;
         estado_txt="Armada OK";
-        }
+        }        
       else estado_txt="Problema Zona";
+      
+      envio_aprobado = true;
       envia_SMS(NUMERO1, 9); //Respondo con el estado
       }
     
@@ -233,6 +237,7 @@ void SIM300_rxSMS(void) {
       beeps(2, 100);
       estado = 2;
       estado_txt="Desarmada";
+      envio_aprobado = true;
       envia_SMS(NUMERO1, 9); //Respondo con el estado
       }
 }
@@ -242,14 +247,14 @@ void SIM300_flushSMS(void) {
     Serial3.print("AT+CMGD=");
     Serial3.print(i);
     Serial3.println("\r\n"); //Borro todos los SMS
-    delay(200);
+    delay(250);
           
     #ifdef DEBUG 
     Serial.print(F("Eliminando Mensaje: "));
     Serial.println(i);
     #endif
   }
-  delay(1000); //Espero para estar seguro de borrar todo el buffer
+  //y(1000); //Espero para estar seguro de borrar todo el buffer
   inputString = "";
 }
 
