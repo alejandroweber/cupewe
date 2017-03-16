@@ -13,7 +13,7 @@ Caracteristicas:
       A2: Cantidad de luz con fotocelula
       A3: Botones del panel de interfaz
       A4: Sensor lluvia (Antes era digital)
-      A5: 
+      A5: (Este lo estoy usando como randomSeed <-- ver setup())
       A6: 
       A7: 
       A8: 
