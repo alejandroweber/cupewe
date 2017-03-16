@@ -105,6 +105,7 @@ void muestradisplay(void) { //Va cambiando cada 15 segundos o cuando se aprieta 
   else if (pres_up) {
     estado_display++;
     display_actualizado = false;
+    //mp3_play(random(1,11)); //Pruebas
     refresco = millis();
   }
   else if (pres_down && estado_display != 0) {

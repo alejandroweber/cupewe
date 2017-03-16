@@ -28,18 +28,16 @@ if (millis() - ultimo_evento_presencia <= intervalo) {
               ultimo_evento_presencia = millis(); //Actualizo el valor de ultimo evento
               contador_eventos_presencia ++; //Aumento en uno el contador
               //Serial.println(contador_eventos_presencia);
-              mp3_single_play(3);
-              //mp3_random_play ();
-              mp3_stop();
-              beeps(1,2000); //Mientras no tengamos el audio OK
-              beeps(3,100);
+              mp3_play(random(1,11));
+              //beeps(1,2000); //Mientras no tengamos el audio OK
+              //beeps(3,100);
               }
 else {
               contador_eventos_presencia = 0;
               ultimo_evento_presencia = millis(); //Actualizo el valor de ultimo evento
      }
 
-if (contador_eventos_presencia == 4) //Numero maximo de simulacion de presencia
+if (contador_eventos_presencia >= 5) //Numero maximo de simulacion de presencia
       {
         sirena_flag = 1; //Aviso que se debe activar sirena
         contador_eventos_presencia = 0; //Reset del contador

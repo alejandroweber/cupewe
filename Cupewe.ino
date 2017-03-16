@@ -235,6 +235,9 @@ void setup() {
   lcd.setCursor(0,1);
   lcd.print(estado_txt); 
   delay(2000); 
+
+  //Semilla para random de mp3
+  randomSeed(analogRead(A5));
   
   SIM300_flushSMS(); //Borro todos los SMS que tenia
   

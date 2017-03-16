@@ -160,8 +160,17 @@ if (envio_aprobado){
   }
   envio_aprobado = false;
   ultimo_sms_zin = millis();
-  inputString = ""; //Borro despues de enviar
+  //inputString = ""; //Borro despues de enviar
   if (Reporte_Flag == 1) Reporte_Flag = 0; //Reset del flag despues de enviar reporte
+
+  //Borro el buffer al salir
+  while (Serial3.available()) {
+    char inByte = (char)Serial3.read();
+    inputString += inByte;
+    delay(3);
+    inputString = ""; //Borro despues de enviar
+    //Serial.write(inByte); //Muestro por el monitor serial lo que dice el modem
+   }
 }
 
 void SIM300_rxSMS(void) {

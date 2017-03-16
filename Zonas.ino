@@ -21,6 +21,7 @@ bool zona_inmediata(void) {
         disparo_instant = millis(); //Almaceno el momento del primer disparo
         disparo_sirena = millis(); //Almaceno el momento donde comienza a sonar la sirena REVISAR SI ES EL MEJOR LUGAR
         estado_txt="Disparada";
+        mp3_play(random(1,11)); //Ejecuto un sonido antes de que suene la sirena
         envia_SMS(NUMERO1, 1);
         instant_flag = true;
         ZonaDisparada = "Inmediata 1";
